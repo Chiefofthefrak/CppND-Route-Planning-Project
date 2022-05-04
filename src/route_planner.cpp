@@ -24,7 +24,7 @@ float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
 
 void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
   current_node->FindNeighbors();
-  for(auto* neighbourNode: current_node->neighbors){
+  for(auto& neighbourNode: current_node->neighbors){
     
     neighbourNode->parent = current_node;
     
@@ -40,13 +40,14 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 
 
 
-bool sumComparison(RouteModel::Node *NodeA, RouteModel::Node *NodeB){
-  return NodeA->g_value + NodeA-> h_value > NodeB->g_value +NodeB-> h_value;
-}
-
+//bool sumComparison(RouteModel::Node *NodeA, RouteModel::Node *NodeB){
+ // return NodeA->g_value + NodeA-> h_value > NodeB->g_value +NodeB-> h_value;
+//}
 RouteModel::Node *RoutePlanner::NextNode() {
-  
-  std::sort(this->open_list.begin(),this->open_list.end(),sumComparison);
+  //TODO: Check if new implementation with Lambda function works
+  std::sort(this->open_list.begin(),this->open_list.end(),[] 
+    (const RouteModel::Node*a, const RouteModel::Node* b) {return a->g_value +a->h_value
+     > b->g_value +b->h_value};);
   RouteModel::Node* lowestSumNode = this->open_list.back();
   
   this->open_list.pop_back();
