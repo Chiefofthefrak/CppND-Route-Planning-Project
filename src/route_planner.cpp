@@ -44,10 +44,10 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
  // return NodeA->g_value + NodeA-> h_value > NodeB->g_value +NodeB-> h_value;
 //}
 RouteModel::Node *RoutePlanner::NextNode() {
-  //TODO: Check if new implementation with Lambda function works
+
   std::sort(this->open_list.begin(),this->open_list.end(),[] 
     (const RouteModel::Node*a, const RouteModel::Node* b) {return a->g_value +a->h_value
-     > b->g_value +b->h_value};);
+     > b->g_value +b->h_value;});
   RouteModel::Node* lowestSumNode = this->open_list.back();
   
   this->open_list.pop_back();
